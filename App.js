@@ -1,17 +1,22 @@
 //Extension ES7 React => rnfes + intro or + tab
-import { StyleSheet, Text, View, Button, TextInput, FlatList, Modal } from 'react-native'
+import { StyleSheet, Text, View, Button, TextInput, FlatList, Modal } from 'react-native';
 import { useState} from 'react';
 import uuid from 'react-native-uuid';
+import ComponenteModal from './components/ComponenteModal';
+import ComponenteFlatList from './components/ComponenteFlatList';
+import ComponenteModalEdit from './components/ComponenteModalEdit';
 
 const App = () => {
   const [title, setTitle] = useState("");
+  const [editTitle, setEditTitle] = useState("");
   const [items, setItems] = useState([]);
   const [modalVisible, setModalVisible] = useState(false)
+  const [modalEditVisible, setModalEditVisible] = useState(false)
   const [itemSelected, setItemSelected] = useState({});
 
   const onHandleTitle=(t)=>{
     setTitle(t);
-  }
+  }   
 
   const addItem=()=>{
     const newItem={
@@ -23,12 +28,34 @@ const App = () => {
     setTitle("");
   }
 
-  const numeros = [12, 34, 54];
-  const [numero1, numero2, numero3] = numeros;
+  const onHandleEditTitle=(t, id)=>{
+    setEditTitle(t)
+    setItemSelected({id:id, title:editTitle});
+  }  
+
+  // const numeros = [12, 34, 54];
+  // const [numero1, numero2, numero3] = numeros;
 
   const onHandleModalDelete=(item)=>{
     setModalVisible(!modalVisible);
     setItemSelected(item);
+  }
+
+  const onHandleModalEdit=(item)=>{
+    setModalEditVisible(!modalEditVisible);
+    setItemSelected(item);
+    setEditTitle(item.title);
+  }
+
+  const editItem=(itemId)=>{    
+    const reporItems = items;
+    const itemEditado = reporItems.findIndex(x=>x.id == itemId);
+
+    reporItems[itemEditado].title = editTitle;
+
+    setItems(reporItems);
+    setEditTitle("");
+    setModalEditVisible(!modalEditVisible);
   }
 
   const deleteItem=()=>{
@@ -41,25 +68,9 @@ const App = () => {
     <View style={styles.container}>
       <TextInput placeholder='Ingrese título' value={title} onChangeText={onHandleTitle}/>
       <Button title='Guardar' onPress={addItem}/>
-      <FlatList data={items} 
-        keyExtractor={item => item.id} 
-        renderItem={({item})=>(
-        <View style={styles.item}>
-          <Text style={styles.itemText}>{item.title}</Text>
-          <Button title='Borrar' onPress={()=>onHandleModalDelete(item)}/>
-        </View>
-      )}/>
-      <Modal transparent={true} visible={modalVisible}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text>Quiere borrar el item?</Text>
-            <View style={styles.modalContainerButtons}>
-              <Button title='si' onPress={deleteItem}/>
-              <Button title='no' onPress={()=>{setModalVisible(false)}}/>
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <ComponenteFlatList items={items} onHandleModalDelete={onHandleModalDelete} onHandleModalEdit={onHandleModalEdit}/>      
+      <ComponenteModal modalVisible={modalVisible} deleteItem={deleteItem} setModalVisible={setModalVisible}/>
+      <ComponenteModalEdit modalEditVisible={modalEditVisible} editTitle={editTitle} editItem={editItem} setModalEditVisible={setModalEditVisible} itemSelected={itemSelected} onHandleEditTitle={onHandleEditTitle}/>
     </View>
   )
 }
