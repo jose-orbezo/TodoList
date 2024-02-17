@@ -2,10 +2,10 @@
 import { StyleSheet, Text, View, Button, TextInput, FlatList, Modal } from 'react-native';
 import { useState} from 'react';
 import uuid from 'react-native-uuid';
-import ComponenteModal from './components/ComponenteModal';
-import ComponenteFlatList from './components/ComponenteFlatList';
-import ComponenteModalEdit from './components/ComponenteModalEdit';
-
+import ComponentModalDelete from './components/ComponentModalDelete';
+import ComponentFlatList from './components/ComponentFlatList';
+import ComponentModalEdit from './components/ComponentModalEdit';
+//01:27:00 => Debug & Split Components- Pantalla compartida con vista del orador
 const App = () => {
   const [title, setTitle] = useState("");
   const [editTitle, setEditTitle] = useState("");
@@ -68,9 +68,9 @@ const App = () => {
     <View style={styles.container}>
       <TextInput placeholder='Ingrese título' value={title} onChangeText={onHandleTitle}/>
       <Button title='Guardar' onPress={addItem}/>
-      <ComponenteFlatList items={items} onHandleModalDelete={onHandleModalDelete} onHandleModalEdit={onHandleModalEdit}/>      
-      <ComponenteModal modalVisible={modalVisible} deleteItem={deleteItem} setModalVisible={setModalVisible}/>
-      <ComponenteModalEdit modalEditVisible={modalEditVisible} editTitle={editTitle} editItem={editItem} setModalEditVisible={setModalEditVisible} itemSelected={itemSelected} onHandleEditTitle={onHandleEditTitle}/>
+      <ComponentFlatList items={items} onHandleModalDelete={onHandleModalDelete} onHandleModalEdit={onHandleModalEdit}/>      
+      <ComponentModalDelete modalVisible={modalVisible} deleteItem={deleteItem} setModalVisible={setModalVisible}/>
+      <ComponentModalEdit modalEditVisible={modalEditVisible} editTitle={editTitle} editItem={editItem} setModalEditVisible={setModalEditVisible} itemSelected={itemSelected} onHandleEditTitle={onHandleEditTitle}/>
     </View>
   )
 }

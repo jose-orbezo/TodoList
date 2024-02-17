@@ -1,15 +1,14 @@
 import { StyleSheet, Text, View, Button, TextInput, FlatList, Modal } from 'react-native'
 
-const ComponenteModalEdit=({modalEditVisible, editTitle, editItem, setModalEditVisible, itemSelected, onHandleEditTitle})=>{
+const ComponentModalDelete=({modalVisible, deleteItem, setModalVisible})=>{
     return(
-        <Modal transparent={true} visible={modalEditVisible}>
+        <Modal transparent={true} visible={modalVisible} onRequestClose={()=>{setModalVisible(false)}}>
             <View style={styles.modalContainer}>
               <View style={styles.modalContent}>
-                <Text>Edit title: </Text>
-                <TextInput placeholder='Ingrese título' value={editTitle} onChangeText={(t)=>onHandleEditTitle(t, itemSelected.id)}/>
+                <Text>Quiere borrar el item?</Text>
                 <View style={styles.modalContainerButtons}>
-                  <Button title='Save' onPress={()=>editItem(itemSelected.id)}/>
-                  <Button title='Cancelar' onPress={()=>{setModalEditVisible(false)}}/>
+                  <Button title='si' onPress={deleteItem}/>
+                  <Button title='no' onPress={()=>{setModalVisible(false)}}/>
                 </View>
               </View>
             </View>
@@ -17,7 +16,7 @@ const ComponenteModalEdit=({modalEditVisible, editTitle, editItem, setModalEditV
     )
 }   
 
-export default ComponenteModalEdit;
+export default ComponentModalDelete;
 
 const styles = StyleSheet.create({
   modalContainer: {

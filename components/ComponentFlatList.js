@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Button, TextInput, FlatList, Modal } from 'react-native';
 
-const ComponenteFlatList=({items, onHandleModalDelete, onHandleModalEdit})=>{
+const ComponentFlatList=({items, onHandleModalDelete, onHandleModalEdit})=>{
 
     return(
         <FlatList data={items} 
@@ -15,7 +15,7 @@ const ComponenteFlatList=({items, onHandleModalDelete, onHandleModalEdit})=>{
     )
 }
 
-export default ComponenteFlatList;
+export default ComponentFlatList;
 
 const styles = StyleSheet.create({
     text:{
